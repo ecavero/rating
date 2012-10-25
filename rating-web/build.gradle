@@ -1,0 +1,14 @@
+apply plugin: "groovy"
+apply plugin: "war"
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	groovy "org.codehaus.groovy:groovy:1.8.4"
+}
+
+build.doLast {
+	println "Listo"
+}
