@@ -14,4 +14,7 @@ war.webInf {
 	into "/"
 }
 
+build.doLast {
+	ant.copy(file: "build/libs/rating-web.war", todir: "/usr/local/apache-tomcat-7.0.29/webapps")
+}
 
