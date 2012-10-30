@@ -1,3 +1,13 @@
 package com.ecavero.rating.app
 
-println "Hola"
+import groovy.swing.*
+
+sw = new SwingBuilder()
+sw.edt {
+	frame(
+		id: "frmPrincipal"
+		
+		) {
+			panel
+		}
+}

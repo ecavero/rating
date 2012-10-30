@@ -1,9 +1,33 @@
 apply plugin: "groovy"
 
+
 repositories {
 	mavenCentral()
+	maven { url "http://java.freehep.org/maven2" } /* Aquí está el jnlp*/
 }
 
+
 dependencies {
-	groovy "org.codehaus.groovy:groovy:1.8.4"
+	groovy "org.codehaus.groovy:groovy-all:1.8.4"
+	compile "javax.jnlp:jnlp:1.2"
 }
+
+jar {
+	manifest {
+		attributes "Main-Class": "com.ecavero.rating.app.Main", "Class-Path": configurations.runtime.collect { "lib/${it.name}"}.join(" ")
+	}
+}
+
+
+def copiarLib() {
+	configurations.runtime.each {
+		ant.copy(file: it.path, todir: "build/libs/lib")
+	}
+}
+
+
+build.doLast {
+	copiarLib()
+}
+
+

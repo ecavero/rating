@@ -6,9 +6,12 @@ repositories {
 }
 
 dependencies {
-	groovy "org.codehaus.groovy:groovy:1.8.4"
+	groovy "org.codehaus.groovy:groovy-all:1.8.4"
 }
 
-build.doLast {
-	println "Listo"
+war.webInf {
+	from "../rating-app/build/libs"
+	into "/"
 }
+
+
