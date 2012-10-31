@@ -32,7 +32,7 @@ def crearXml() {
 	def xml = new MarkupBuilder(sw)
 	def titulo = "Sistema"
 	def ruta = new File("build/libs/").canonicalPath
-	xml.jnlp(spec: "1.6+", codebase: "http://localhost:8080/rating-web", href: "rating.jnlp") {
+	xml.jnlp(spec: "1.6+", codebase: "http://ecavero.com/rating-web", href: "rating.jnlp") {
 		information() {
 			title(titulo)
 			vendor("Daniel Rodríguez")
