@@ -7,6 +7,7 @@ repositories {
 
 dependencies {
 	groovy "org.codehaus.groovy:groovy-all:1.8.4"
+	compile "mysql:mysql-connector-java:5.1.21"
 }
 
 war.webInf {

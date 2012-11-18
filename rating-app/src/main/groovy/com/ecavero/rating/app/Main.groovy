@@ -1,9 +1,12 @@
 package com.ecavero.rating.app
 
+import com.ecavero.rating.app.beans.*
+import com.ecavero.rating.app.despachadores.*
 import groovy.swing.*
 import java.awt.*
 import javax.swing.*
 import javax.swing.border.*
+
 
 sw = new SwingBuilder()
 sw.lookAndFeel("system")
@@ -60,7 +63,12 @@ sw.edt {
 											panel size: [5,0]
 										}
 										td {
-											comboBox(items: ["Hombres", "Mujeres", "Hombres y Mujeres"] as String[])
+											def generos = GeneroDespachador.obtenerGeneros()
+											generos = generos.collect {
+												g ->
+												new GeneroDecorador(genero: g)
+											}
+											comboBox(items: generos)
 										}										
 									}
 								}
@@ -79,7 +87,12 @@ sw.edt {
 											panel size: [5,0]
 										}
 										td {
-											comboBox(items: ["A/B", "C", "D", "E"] as String[])
+											def niveles = NivelDespachador.obtenerNiveles()
+											niveles = niveles.collect {
+												n ->
+												new NivelDecorador(nivel: n)
+											}
+											comboBox(items: niveles)
 										}										
 									}
 								}
@@ -140,3 +153,7 @@ sw.frmPrincipal.visible = true
 static def cerrar(sw) {
 	sw.frmPrincipal.dispose()
 }
+
+GeneroDespachador.obtenerGeneros()
+
+
