@@ -111,8 +111,13 @@ sw.edt {
 											panel size: [5,0]
 										}
 										td {
-											comboBox(items: ["Muros", "Relojes", "Paraderos", "Paletas"] as String[])
-										}										
+											def elementos = ElementoDespachador.obtenerElementos()
+											elementos = elementos.collect {
+												e ->
+												new ElementoDecorador(elemento: e)
+											}
+											comboBox(items: elementos)
+										}
 									}
 								}
 							}							
