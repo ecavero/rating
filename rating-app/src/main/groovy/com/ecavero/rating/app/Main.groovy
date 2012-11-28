@@ -32,7 +32,10 @@ sw.edt {
 											panel size: [5,0]
 										}
 										td {
-											textField(columns: 5)
+											textField(
+												id: "edadMin",
+												columns: 5
+											)
 										}
 										td {
 											panel size: [5,0]
@@ -44,7 +47,10 @@ sw.edt {
 											panel size: [5,0]
 										}
 										td {
-											textField(columns: 5)
+											textField(
+												id: "edadMax",
+												columns: 5
+											)
 										}
 									}
 								}
@@ -68,7 +74,10 @@ sw.edt {
 												g ->
 												new GeneroDecorador(genero: g)
 											}
-											comboBox(items: generos)
+											comboBox(
+												id: "genero",
+												items: generos
+											)
 										}										
 									}
 								}
@@ -92,7 +101,10 @@ sw.edt {
 												n ->
 												new NivelDecorador(nivel: n)
 											}
-											comboBox(items: niveles)
+											comboBox(
+											id: "nivel",
+											items: niveles
+											)
 										}										
 									}
 								}
@@ -105,7 +117,9 @@ sw.edt {
 								tableLayout {
 									tr {
 										td {
-											label(text: "Elemento")
+											label(
+												text: "Elemento"
+											)
 										}
 										td {
 											panel size: [5,0]
@@ -116,7 +130,10 @@ sw.edt {
 												e ->
 												new ElementoDecorador(elemento: e)
 											}
-											comboBox(items: elementos)
+											comboBox(
+											id: "elemento",
+											items: elementos
+											)
 										}
 									}
 								}
@@ -135,7 +152,10 @@ sw.edt {
 											panel size: [5,0]
 										}
 										td {
-											textField(columns: 5)
+											textField(
+												id: "cantidad",
+												columns: 5
+											)
 										}										
 									}
 								}
@@ -145,7 +165,9 @@ sw.edt {
 				}
 			}
 			panel(constraints: BorderLayout.SOUTH) {
-				button(text: "Calcular")
+				button(text: "Calcular", actionPerformed: {
+					calcular(sw)
+				})
 				button(text: "Cerrar", actionPerformed: {
 					cerrar(sw)
 				})
@@ -156,9 +178,19 @@ sw.frmPrincipal.pack()
 sw.frmPrincipal.visible = true
 
 static def cerrar(sw) {
-	sw.frmPrincipal.dispose()
+	System.exit(0)
 }
 
-GeneroDespachador.obtenerGeneros()
+static def calcular(sw) {
+	def idGenero = sw.genero.selectedItem.genero.id as int
+	def idNivel = sw.nivel.selectedItem.nivel.id as int
+	def idElemento = sw.elemento.selectedItem.elemento.id as int
+	def edadMin = sw.edadMin.text as int
+	def edadMax = sw.edadMax.text as int
+	def cantidad = sw.cantidad.text as int
+	def ratio = RatingDespachador.obtenerRatio(idGenero, idNivel, idElemento, edadMin, edadMax)
+	ratio *= cantidad
+	sw.optionPane().showMessageDialog(sw.frmPrincipal, ratio)
+}
 
 
