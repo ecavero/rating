@@ -4,11 +4,11 @@ import groovy.xml.*
 
 def conn = ConnectionPool.obtenerConexion()
 def idGenero = params.idGenero as int
-def idNivel = params.idNivel as int
+def niveles = params.nivel
 def idElemento = params.idElemento as int
 def edadMin = params.edadMin as int
 def edadMax = params.edadMax as int
-def ratio = RatioDespachador.obtenerRatio conn, idGenero, idNivel, idElemento, edadMin, edadMax
+def ratio = RatioDespachador.obtenerRatio conn, idGenero, niveles, idElemento, edadMin, edadMax
 
 response.contentType = "text/xml"
 
