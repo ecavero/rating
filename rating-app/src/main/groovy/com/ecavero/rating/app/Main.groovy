@@ -22,39 +22,25 @@ sw.edt {
 				tableLayout {
 					tr {
 						td {
-							panel(border: BorderFactory.createTitledBorder(borde, "Edad")) {
+							panel {
 								tableLayout {
 									tr {
 										td {
-											label(text: "De")
+											label(text: "Edad")
 										}
 										td {
 											panel size: [5,0]
 										}
 										td {
-											textField(
-												id: "edadMin",
-												columns: 5
-											)
-										}
-										td {
-											panel size: [5,0]
-										}										
-										td {
-											label(text: "a")
-										}
-										td {
-											panel size: [5,0]
-										}
-										td {
-											textField(
-												id: "edadMax",
-												columns: 5
+											def edades = EdadDespachador.obtenerEdades()
+											comboBox(
+												id: "edad",
+												items: edades
 											)
 										}
 									}
 								}
-							}							
+							}
 						}
 					}
 					tr {
@@ -101,10 +87,14 @@ sw.edt {
 												n ->
 												new NivelDecorador(nivel: n)
 											}
-											comboBox(
-											id: "nivel",
-											items: niveles
-											)
+											scrollPane(
+												preferredSize: [150,150]
+											) {
+												list(
+													id: "nivel",
+													items: niveles
+												)
+											}
 										}										
 									}
 								}
@@ -183,12 +173,21 @@ static def cerrar(sw) {
 
 static def calcular(sw) {
 	def idGenero = sw.genero.selectedItem.genero.id as int
-	def idNivel = sw.nivel.selectedItem.nivel.id as int
+	def niveles = sw.nivel.selectedValues
+	if (!niveles) {
+		sw.optionPane().showMessageDialog(sw.frmPrincipal, "Debe elegir al menos un nivel SE", null, JOptionPane.ERROR_MESSAGE)
+		return
+	}
+	niveles = niveles.collect {
+		n ->
+		n.nivel.id
+	}
 	def idElemento = sw.elemento.selectedItem.elemento.id as int
-	def edadMin = sw.edadMin.text as int
-	def edadMax = sw.edadMax.text as int
+	def edadMin = sw.edad.selectedItem.edadMin
+	def edadMax = sw.edad.selectedItem.edadMax
+	if (sw.cantidad.text.empty) sw.cantidad.text = "0"
 	def cantidad = sw.cantidad.text as int
-	def ratio = RatingDespachador.obtenerRatio(idGenero, idNivel, idElemento, edadMin, edadMax)
+	def ratio = RatingDespachador.obtenerRatio(idGenero, niveles, idElemento, edadMin, edadMax)
 	ratio *= cantidad
 	sw.optionPane().showMessageDialog(sw.frmPrincipal, ratio)
 }
